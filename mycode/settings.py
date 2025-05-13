@@ -6,7 +6,7 @@ import dj_database_url
 
 BASE_DIR = Path(__file__).resolve().parent.parent
 
-SECRET_KEY = config('SECRET_KEY')
+SECRET_KEY = config('SECRET_KEY', default='af9hKdbp2qX28Aj130knK4-1ndik39bf&fx*y%qf!6kyc!8u0')
 
 DEBUG = config('DEBUG', cast=bool, default=False)  # Default to False for production
 
