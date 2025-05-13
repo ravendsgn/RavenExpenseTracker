@@ -1,0 +1,60 @@
+<header class="navbar navbar-expand-md navbar-dark sticky-top bg-dark shadow-lg">
+  <div class="container-fluid">
+    <a class="navbar-brand col-md-3 col-lg-2 px-4 py-2 text-white fw-bold " style="background-color: #f28c38;" href="{% url 'dashboard-lastmonth' %}">
+      </i>RavenExpenseTracker
+    </a>
+    <button
+      class="navbar-toggler border-0 p-2"
+      type="button"
+      data-bs-toggle="collapse"
+      data-bs-target="#sidebarMenu"
+      aria-controls="sidebarMenu"
+      aria-expanded="false"
+      aria-label="Toggle navigation"
+      style="background-color: #f28c38;"
+    >
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarContent">
+      <ul class="navbar-nav mx-auto">
+        
+      </ul>
+      <ul class="navbar-nav ms-auto me-3">
+        <li class="nav-item dropdown">
+          <a
+            class="nav-link dropdown-toggle text-white align-items-center d-flex"
+            href="#"
+            id="userDropdown"
+            role="button"
+            data-bs-toggle="dropdown"
+            aria-expanded="false"
+          >
+            <i class="fas fa-user-circle fs-5 me-1"></i>
+            <span class="d-none d-md-inline fw-medium">Account</span>
+          </a>
+          <ul class="dropdown-menu dropdown-menu-end border-0 shadow-sm" aria-labelledby="userDropdown">
+            <li>
+              <a class="dropdown-item" href="{% url 'profile' %}">
+                <i class="fas fa-user me-2"></i>Profile
+              </a>
+            </li>
+            <li>
+              <a class="dropdown-item" href="{% url 'preferences' %}">
+                <i class="fas fa-cog me-2"></i>Settings
+              </a>
+            </li>
+            <li><hr class="dropdown-divider"></li>
+            <li>
+              <form action="{% url 'logout' %}" method="post">
+                {% csrf_token %}
+                <button type="submit" class="dropdown-item">
+                  <i class="fas fa-sign-out-alt me-2"></i>Sign out
+                </button>
+              </form>
+            </li>
+          </ul>
+        </li>
+      </ul>
+    </div>
+  </div>
+</header>

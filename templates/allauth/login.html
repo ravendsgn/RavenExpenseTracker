@@ -1,0 +1,203 @@
+{% extends 'allauth/base.html' %}
+{% load static %}
+{% block title %} Login | RavenExpenseTracker {% endblock %}
+
+{% block content %}
+<style>
+body {
+    background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: 'Inter', sans-serif;
+}
+
+.card {
+    border: none;
+    border-radius: 16px;
+    background: rgba(255, 255, 255, 0.95);
+    backdrop-filter: blur(10px);
+    padding: 2rem;
+    max-width: 450px;
+    width: 100%;
+}
+
+.title-h {
+    color: #1a1a1a;
+    font-weight: 700;
+}
+
+.card-title h3 {
+    font-size: 1.8rem;
+    font-weight: 600;
+    color: #1a1a1a;
+    margin-bottom: 1.5rem;
+}
+
+.form-control {
+    border-radius: 8px;
+    border: 1px solid #e0e0e0;
+    padding: 0.75rem;
+    transition: all 0.3s ease;
+    background: #f8f9fa;
+}
+
+.form-control:focus {
+    border-color: #6b48ff;
+    box-shadow: 0 0 0 3px rgba(107, 72, 255, 0.1);
+    background: #fff;
+}
+
+.input-group-text {
+    border-radius: 8px;
+    border: 1px solid #e0e0e0;
+    background: #f8f9fa;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.input-group-text:hover {
+    background: #e9ecef;
+}
+
+.btn-primary {
+    background: linear-gradient(45deg, #6b48ff, #00ddeb);
+    border: none;
+    border-radius: 8px;
+    padding: 0.75rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    transition: all 0.3s ease;
+}
+
+.btn-primary:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(107, 72, 255, 0.3);
+}
+
+.text-lead {
+    color: #6c757d;
+    font-size: 0.95rem;
+}
+
+a {
+    color: #6b48ff;
+    text-decoration: none;
+    font-weight: 500;
+    transition: all 0.3s ease;
+}
+
+a:hover {
+    color: #00ddeb;
+    text-decoration: underline;
+}
+
+.nvs-tooltip .badge {
+    font-size: 0.7rem;
+    padding: 0.3em 0.5em;
+}
+
+.custom-tooltip .tooltip-inner {
+    background: #1a1a1a;
+    color: #fff;
+    border-radius: 8px;
+    padding: 0.75rem;
+    font-size: 0.9rem;
+}
+
+.toggle-password {
+    cursor: pointer;
+    color: #6c757d;
+}
+
+.toggle-password:hover {
+    color: #6b48ff;
+}
+
+.developed-by {
+    color: #6c757d;
+    font-size: 0.85rem;
+    margin-top: 1rem;
+}
+
+@media (max-width: 576px) {
+    .card {
+        padding: 1.5rem;
+    }
+}
+</style>
+
+<div class="container">
+  <div class="row mt-4">
+    <h1 class="text-center" style="font-family: 'Arial', sans-serif; font-size: 2.5rem; color: #333; margin: 2rem 0; text-transform: uppercase; letter-spacing: 1.5px;">
+  Welcome to <span style="color: #007bff; font-weight: bold; text-shadow: 1px 1px 2px rgba(0,0,0,0.1);">Raven Expense Tracker</span>!
+</h1>
+  <div class="container">
+  <div class="row d-flex justify-content-center mt-3">
+    <div class="col-12 col-md-6 col-lg-4">
+      <div class="card shadow-sm">
+        <div class="card-title text-center">
+          <h3>Login</h3>
+        </div>
+        <div class="card-body">
+          <form action="{% url 'login' %}" method="post">
+            {% csrf_token %}
+            {% include 'base/messages.html' %}
+            <div class="mb-3">
+              <label class="form-label" for="inputusername">Username <span class="text-danger">*</span></label>
+              <input required type="text" name="username" placeholder="Enter username" class="form-control" id="inputusername"
+                value="{{ FieldValues.username }}" />
+            </div>
+
+            <div class="mb-3">
+              <label class="form-label" for="inputpassword">Password <span class="text-danger">*</span>
+                <span class="nvs-tooltip" href="#" data-bs-toggle="tooltip" data-bs-placement="top"
+                    data-bs-custom-class="custom-tooltip" data-bs-title="<strong>★</strong> Password must contain at least 8 characters." data-bs-html="true">
+                    <span class="badge rounded-pill text-bg-warning">i</span>
+                </span>
+              </label>
+              <div class="input-group">
+                <input name="password" id="inputpassword" type="password" class="form-control" placeholder="Enter password" required>
+                <span class="input-group-text">
+                  <i toggle="#inputpassword" class="fa fa-fw toggle-password fa-eye"></i>
+                </span>
+              </div>
+            </div>
+
+            <input type="submit" value="Login" class="btn btn-primary submit-btn w-100 mt-3"/>
+          </form>
+          <div class="text-center mt-3">
+            <span class="text-lead">Don't have an account? </span><a href="{% url 'register' %}" >Register</a><br>
+
+          </div>
+          <div class="text-center developed-by mt-3">
+            Developed by Bakhtiyorov
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<script>
+document.querySelectorAll('.toggle-password').forEach(item => {
+    item.addEventListener('click', function () {
+        const target = document.querySelector(this.getAttribute('toggle'));
+        if (target.type === 'password') {
+            target.type = 'text';
+            this.classList.remove('fa-eye');
+            this.classList.add('fa-eye-slash');
+        } else {
+            target.type = 'password';
+            this.classList.remove('fa-eye-slash');
+            this.classList.add('fa-eye');
+        }
+    });
+});
+
+// Enable Bootstrap tooltips
+const tooltipTriggerList = document.querySelectorAll('[data-bs-toggle="tooltip"]');
+const tooltipList = [...tooltipTriggerList].map(tooltipTriggerEl => new bootstrap.Tooltip(tooltipTriggerEl));
+</script>
+{% endblock %}

@@ -1,0 +1,170 @@
+{% extends 'base/index.html' %}
+{% load static %}
+{% block title %}
+DASHBOARD | {{site_name}}
+{% endblock %}
+
+{% block styles %}
+<link href="{% static 'main/css/common.css' %}" rel="stylesheet" />
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+body {
+    font-family: 'Inter', sans-serif;
+    background-color: #f8fafc;
+}
+.container {
+    max-width: 1200px;
+}
+h3 {
+    color: #1f2937;
+    font-size: 2rem;
+    font-weight: 600;
+    margin-bottom: 1rem;
+}
+h5 {
+    color: #6b7280;
+    font-size: 1.25rem;
+    font-weight: 500;
+    text-decoration: underline;
+    margin-bottom: 0;
+}
+hr {
+    border: 0;
+    height: 1px;
+    background: #d1d5db;
+    margin: 1.5rem 0;
+}
+.form-select {
+    border-radius: 50rem;
+    border: 1px solid #d1d5db;
+    padding: 0.75rem 1.5rem;
+    font-size: 0.95rem;
+    background: #ffffff;
+    transition: border-color 0.2s, box-shadow 0.2s;
+}
+.form-select:focus {
+    border-color: #2563eb;
+    box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
+    outline: none;
+}
+.form-label {
+    font-weight: 500;
+    color: #374151;
+    font-size: 0.95rem;
+    margin-bottom: 0.5rem;
+    display: block;
+    text-align: center;
+}
+.btn-primary {
+    background: linear-gradient(135deg, #2563eb, #3b82f6);
+    border: none;
+    border-radius: 50rem;
+    padding: 0.75rem 2rem;
+    font-weight: 500;
+    transition: background 0.3s, transform 0.2s;
+}
+.btn-primary:hover {
+    background: linear-gradient(135deg, #1d4ed8, #2563eb);
+    transform: translateY(-1px);
+}
+.card {
+    border: none;
+    border-radius: 12px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
+    background: #ffffff;
+    transition: transform 0.2s ease;
+}
+.card:hover {
+    transform: translateY(-2px);
+}
+.card-header {
+    border-radius: 12px 12px 0 0;
+    padding: 1rem 1.5rem;
+}
+.card-header.bg-primary {
+    background: linear-gradient(135deg, #2563eb, #3b82f6) !important;
+}
+.card-header.bg-success {
+    background: linear-gradient(135deg, #22c55e, #4ade80) !important;
+}
+.card-header h4 {
+    color: #ffffff;
+    font-size: 1.25rem;
+    font-weight: 500;
+    margin: 0;
+}
+.card-body {
+    padding: 1.5rem;
+}
+canvas {
+    max-width: 100%;
+    max-height: 300px;
+}
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="container mt-5">
+    {% include 'base/messages.html' %}
+    <h3 class="fw-bold">Dashboard</h3>
+    <hr>
+
+    <!-- Form to select month and graph -->
+    <form action="{% url 'dashboard-lastmonth' %}" method="post">
+        {% csrf_token %}
+        <div class="row align-items-end g-3">
+            <div class="col-md-4">
+                <h5 class="text-decoration-underline fw-bold text-muted">Last {{user_month}} Expenses and Income</h5>
+            </div>
+            <div class="col-md-3 text-center">
+                <label class="form-label">Period</label>
+                <select name="month" class="form-select" id="inputGroupSelect04">
+                    {% for month in months %}
+                    <option {% if user_month == month %} selected {% endif %} value="{{month}}">{{month}}</option>
+                    {% endfor %}
+                </select>
+            </div>
+            <div class="col-md-3 text-center">
+                <label class="form-label">Graph</label>
+                <select name="graph" class="form-select" id="inputGroupSelect04">
+                    {% for graph in graphs %}
+                    <option {% if user_graph == graph %} selected {% endif %} value="{{graph}}">{{graph}}</option>
+                    {% endfor %}
+                </select>
+            </div>
+            <div class="col-md-2 text-center">
+                <input class="btn btn-primary" type="submit" value="Save" />
+            </div>
+        </div>
+    </form>
+
+    <!-- Graphs Section -->
+    <div class="row mt-5">
+        <div class="col-md-6 mb-4">
+            <div class="card">
+                <div class="card-header bg-primary">
+                    <h4>Expenses</h4>
+                </div>
+                <div class="card-body">
+                    <canvas id="myChart1" class="w-100" width="auto" height="auto"></canvas>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-6 mb-4">
+            <div class="card">
+                <div class="card-header bg-success">
+                    <h4>Incomes</h4>
+                </div>
+                <div class="card-body">
+                    <canvas id="myChart2" class="w-100" width="auto" height="auto"></canvas>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script src="{% static 'dashboard/js/main.js' %}"></script>
+{% endblock %}
